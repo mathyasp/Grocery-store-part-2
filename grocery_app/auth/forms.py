@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError
 from grocery_app.models import User
-from grocery_app.extensions import bcrypt
+from grocery_app import bcrypt
 
 class SignUpForm(FlaskForm):
     username = StringField('User Name',
