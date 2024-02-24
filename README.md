@@ -1,6 +1,8 @@
-# Homework 3: Grocery Store
+# Homework 4: Grocery Store Site Part 2
+## Purpose (Why should I do this?)
+This project will allow you to practice adding authentication & authorization to an existing website using the Flask-Login library. After this assignment, you should be able to integrate sign-up & login functionality into your Flask projects!
 
-_For instructions on how to complete this assignment, see [here](https://github.com/Tech-at-DU/ACS-1220-Authentication-and-Associations/blob/master/Assignments/grocery-store-part-2.md)._
+If you have trouble with this assignment, I would highly recommend completing the SQLAlchemy Auth Lab (Books) which will guide you through step-by-step in adding login & sign-up to an existing website.
 
 ## Setup
 
