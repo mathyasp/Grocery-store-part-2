@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Shopping List</h1>
+
+{% for item in shopping_list %}
+<div class="item-details">
+    <a href="/item/{{ item.id }}"><img src="{{ item.photo_url }}" alt="{{ item.name }}" width="200px">
+        <p><strong>{{ item.name }}</strong></p>
+    </a>
+    <p>Price: ${{ "%.2f"|format(item.price) }}</p>
+    <form method="POST" action="/delete_from_shopping_list/{{ item.id }}">
+        <input type="submit" value="Remove item">
+    </form>
+</div>
+{% endfor %}
+
+{% endblock %}

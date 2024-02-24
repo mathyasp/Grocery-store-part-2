@@ -109,7 +109,37 @@ def item_detail(item_id):
         flash('Item was updated successfully.')
         return redirect(url_for('main.item_detail', item_id=item.id))
     # TODO: Send the form to the template and use it to render the form fields
-    return render_template('item_detail.html', form=form, item=item)
+    return render_template('item_detail.html', item=item, form=form)
+
+@main.route('/add_to_shopping_list/<item_id>', methods=['POST'])
+@login_required
+def add_to_shopping_list(item_id):
+    """Add item to user list"""
+    item = GroceryItem.query.get(item_id)
+    if item in current_user.shopping_list_items:
+        flash("Item already in shopping list.")
+        return redirect(url_for('main.item_detail', item_id=item.id))
+    current_user.shopping_list_items.append(item)
+    db.session.commit()
+    flash("Item added to shopping list successfully.")
+    return redirect(url_for('main.item_detail', item_id=item.id))
+
+@main.route('/delete_from_shopping_list/<item_id>', methods=['POST'])
+@login_required
+def delete_from_shopping_list(item_id):
+    """Remove item from user list"""
+    item = GroceryItem.query.get(item_id)
+    if item in current_user.shopping_list_items:
+        current_user.shopping_list_items.remove(item)
+        db.session.commit()
+        flash("Item removed from shopping list successfully.")
+    return redirect(url_for('main.shopping_list'))
+
+@main.route('/shopping_list')
+@login_required
+def shopping_list():
+    user_shopping_list = current_user.shopping_list_items
+    return render_template('shopping_list.html', shopping_list=user_shopping_list)
 
 # @main.route('/reset_db')
 # def reset_db():

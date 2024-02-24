@@ -25,6 +25,9 @@ class GroceryStore(db.Model):
     def __str__(self):
         return self.title
 
+    def __repr__(self):
+        return self.title
+
 class GroceryItem(db.Model):
     """Grocery Item model."""
     id = db.Column(db.Integer, primary_key=True)
@@ -37,9 +40,25 @@ class GroceryItem(db.Model):
     store = db.relationship('GroceryStore', back_populates='items')
     created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_by = db.relationship('User')
+    shopping_list = db.relationship(
+        "User", secondary="shopping_list_table", back_populates="shopping_list_items")
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name
 
 class User(UserMixin, db.Model):
     """User model."""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False, unique=True)
-    password = db.Column(db.String(80), nullable=False) 
+    password = db.Column(db.String(80), nullable=False)
+
+    shopping_list_items = db.relationship('GroceryItem', secondary="shopping_list_table", back_populates='shopping_list') 
+
+shopping_list_table = db.Table('shopping_list_table',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('item_id', db.Integer, db.ForeignKey('grocery_item.id')),
+    db.PrimaryKeyConstraint('user_id', 'item_id')
+)
